@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ms_brands",
+  "info": {
+    "singularName": "ms-brand",
+    "pluralName": "ms-brands",
+    "displayName": "Ms Brand"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

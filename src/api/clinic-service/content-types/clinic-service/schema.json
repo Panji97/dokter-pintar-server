@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clinic_services",
+  "info": {
+    "singularName": "clinic-service",
+    "pluralName": "clinic-services",
+    "displayName": "Faskes Pelayanan"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "room": {
+      "type": "string"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "clinic_services"
+    }
+  }
+}

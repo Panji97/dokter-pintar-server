@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "apotek_invoices",
+  "info": {
+    "singularName": "apotek-invoice",
+    "pluralName": "apotek-invoices",
+    "displayName": "ApotekInvoice"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Obat Bebas",
+        "Obat Resep"
+      ]
+    },
+    "patientName": {
+      "type": "string"
+    },
+    "items": {
+      "type": "json"
+    },
+    "total": {
+      "type": "integer",
+      "default": 0
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "enum": [
+        "Belum Dibayar",
+        "Lunas"
+      ],
+      "default": "Belum Dibayar"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "apotek_invoices"
+    }
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "kind": "collectionType",
+  "collectionName": "faskes_list",
+  "info": {
+    "singularName": "faskes",
+    "pluralName": "faskes-list",
+    "displayName": "Faskes"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "address": {
+      "type": "text"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "patients": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::patient.patient",
+      "mappedBy": "faskes"
+    },
+    "registrations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::registration.registration",
+      "mappedBy": "faskes"
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
+      "mappedBy": "faskes"
+    },
+    "emr_documents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-document.emr-document",
+      "mappedBy": "faskes"
+    },
+    "invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice.invoice",
+      "mappedBy": "faskes"
+    },
+    "apotek_invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::apotek-invoice.apotek-invoice",
+      "mappedBy": "faskes"
+    },
+    "insurance_claims": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::insurance-claim.insurance-claim",
+      "mappedBy": "faskes"
+    },
+    "letters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::letter.letter",
+      "mappedBy": "faskes"
+    },
+    "referrals": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::referral.referral",
+      "mappedBy": "faskes"
+    },
+    "medicines": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::medicine.medicine",
+      "mappedBy": "faskes"
+    },
+    "suppliers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::supplier.supplier",
+      "mappedBy": "faskes"
+    },
+    "factories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::factory.factory",
+      "mappedBy": "faskes"
+    },
+    "brands": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::brand.brand",
+      "mappedBy": "faskes"
+    },
+    "penerimaans": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::penerimaan.penerimaan",
+      "mappedBy": "faskes"
+    },
+    "pengeluarans": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::pengeluaran.pengeluaran",
+      "mappedBy": "faskes"
+    },
+    "penyesuaians": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::penyesuaian.penyesuaian",
+      "mappedBy": "faskes"
+    },
+    "returs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::retur.retur",
+      "mappedBy": "faskes"
+    },
+    "rooms": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::room.room",
+      "mappedBy": "faskes"
+    },
+    "patient_groups": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::patient-group.patient-group",
+      "mappedBy": "faskes"
+    },
+    "clinic_services": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::clinic-service.clinic-service",
+      "mappedBy": "faskes"
+    },
+    "service_packages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::service-package.service-package",
+      "mappedBy": "faskes"
+    },
+    "service_discounts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::service-discount.service-discount",
+      "mappedBy": "faskes"
+    },
+    "staffs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::staff.staff",
+      "mappedBy": "faskes"
+    },
+    "staff_schedules": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::staff-schedule.staff-schedule",
+      "mappedBy": "faskes"
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "faskes"
+    }
+  }
+}

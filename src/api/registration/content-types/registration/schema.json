@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "registrations",
+  "info": {
+    "singularName": "registration",
+    "pluralName": "registrations",
+    "displayName": "Registration"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "regDate": {
+      "type": "datetime"
+    },
+    "patientId": {
+      "type": "string"
+    },
+    "patientName": {
+      "type": "string"
+    },
+    "group": {
+      "type": "enumeration",
+      "enum": [
+        "Umum",
+        "BPJS Kesehatan",
+        "Asuransi Swasta",
+        "Member"
+      ]
+    },
+    "serviceType": {
+      "type": "string"
+    },
+    "room": {
+      "type": "string"
+    },
+    "doctor": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Registrasi",
+        "Proses"
+      ]
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "registrations"
+    }
+  }
+}

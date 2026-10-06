@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ms_polis",
+  "info": {
+    "singularName": "ms-poli",
+    "pluralName": "ms-polis",
+    "displayName": "Ms Poli"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "satusehat": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

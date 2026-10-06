@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ms_medicines",
+  "info": {
+    "singularName": "ms-medicine",
+    "pluralName": "ms-medicines",
+    "displayName": "Ms Obat"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["Antibiotik", "Analgesik", "Anastesi", "BHP Gigi", "Vitamin", "Lainnya", "Alkes"]
+    },
+    "form": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "enumeration",
+      "enum": ["Tablet", "Kapsul", "Botol", "Ampul", "Pcs", "Strip", "Buah"]
+    },
+    "minStock": {
+      "type": "integer",
+      "default": 0
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "supplier": {
+      "type": "string"
+    }
+  }
+}

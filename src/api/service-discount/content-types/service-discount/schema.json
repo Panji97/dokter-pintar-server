@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "service_discounts",
+  "info": {
+    "singularName": "service-discount",
+    "pluralName": "service-discounts",
+    "displayName": "ServiceDiscount"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "percent": {
+      "type": "integer",
+      "default": 0
+    },
+    "appliesTo": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "service_discounts"
+    }
+  }
+}

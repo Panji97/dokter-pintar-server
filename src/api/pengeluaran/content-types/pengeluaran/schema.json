@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pengeluarans",
+  "info": {
+    "singularName": "pengeluaran",
+    "pluralName": "pengeluarans",
+    "displayName": "Pengeluaran"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "room": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "default": 0
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "pengeluarans"
+    }
+  }
+}

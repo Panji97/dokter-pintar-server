@@ -1,0 +1,90 @@
+{
+  "kind": "collectionType",
+  "collectionName": "invoices",
+  "info": {
+    "singularName": "invoice",
+    "pluralName": "invoices",
+    "displayName": "Invoice"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "visitId": {
+      "type": "string"
+    },
+    "patientId": {
+      "type": "string"
+    },
+    "patientName": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "group": {
+      "type": "enumeration",
+      "enum": [
+        "Umum",
+        "BPJS Kesehatan",
+        "Asuransi Swasta",
+        "Member"
+      ]
+    },
+    "doctor": {
+      "type": "string"
+    },
+    "consultationFee": {
+      "type": "integer",
+      "default": 0
+    },
+    "procedureFee": {
+      "type": "integer",
+      "default": 0
+    },
+    "alkesFee": {
+      "type": "integer",
+      "default": 0
+    },
+    "medicineFee": {
+      "type": "integer",
+      "default": 0
+    },
+    "discount": {
+      "type": "integer",
+      "default": 0
+    },
+    "total": {
+      "type": "integer",
+      "default": 0
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": [
+        "Tunai",
+        "QRIS",
+        "Debit",
+        "Transfer",
+        "BPJS"
+      ]
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "enum": [
+        "Belum Dibayar",
+        "Lunas"
+      ],
+      "default": "Belum Dibayar"
+    },
+    "paidAt": {
+      "type": "date"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "invoices"
+    }
+  }
+}

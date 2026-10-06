@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "emr_documents",
+  "info": {
+    "singularName": "emr-document",
+    "pluralName": "emr-documents",
+    "displayName": "EmrDocument"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "regId": {
+      "type": "string",
+      "required": true
+    },
+    "anamnesaUmum": {
+      "type": "json"
+    },
+    "anamnesaOdontogram": {
+      "type": "json"
+    },
+    "pemeriksaanUmum": {
+      "type": "json"
+    },
+    "kondisi": {
+      "type": "json"
+    },
+    "odontogram": {
+      "type": "json"
+    },
+    "diagnosa": {
+      "type": "json"
+    },
+    "tindakan": {
+      "type": "json"
+    },
+    "alkes": {
+      "type": "json"
+    },
+    "resepApotek": {
+      "type": "json"
+    },
+    "resepRujukan": {
+      "type": "json"
+    },
+    "cppt": {
+      "type": "json"
+    },
+    "dokumen": {
+      "type": "json"
+    },
+    "photoCount": {
+      "type": "integer",
+      "default": 0
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "emr_documents"
+    }
+  }
+}

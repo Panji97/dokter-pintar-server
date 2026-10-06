@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "patient_groups",
+  "info": {
+    "singularName": "patient-group",
+    "pluralName": "patient-groups",
+    "displayName": "Faskes Grup Pasien"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "patient_groups"
+    }
+  }
+}

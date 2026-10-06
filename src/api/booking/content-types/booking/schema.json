@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bookings",
+  "info": {
+    "singularName": "booking",
+    "pluralName": "bookings",
+    "displayName": "Booking"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "patientName": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "serviceType": {
+      "type": "string"
+    },
+    "doctor": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "time": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Menunggu Konfirmasi",
+        "Terjadwal",
+        "Selesai",
+        "Dibatalkan"
+      ]
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "HelloDokterPintar",
+        "BPJS",
+        "Manual"
+      ]
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "bookings"
+    }
+  }
+}

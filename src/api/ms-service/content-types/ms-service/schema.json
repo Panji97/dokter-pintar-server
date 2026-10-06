@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ms_services",
+  "info": {
+    "singularName": "ms-service",
+    "pluralName": "ms-services",
+    "displayName": "Ms Pelayanan"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "room": {
+      "type": "string"
+    }
+  }
+}

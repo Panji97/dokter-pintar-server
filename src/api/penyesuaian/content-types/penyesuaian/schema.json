@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "penyesuaians",
+  "info": {
+    "singularName": "penyesuaian",
+    "pluralName": "penyesuaians",
+    "displayName": "Penyesuaian"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nota": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "pic": {
+      "type": "string"
+    },
+    "items": {
+      "type": "json"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "penyesuaians"
+    }
+  }
+}

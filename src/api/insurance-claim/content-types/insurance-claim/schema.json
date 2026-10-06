@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "insurance_claims",
+  "info": {
+    "singularName": "insurance-claim",
+    "pluralName": "insurance-claims",
+    "displayName": "InsuranceClaim"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "patientName": {
+      "type": "string"
+    },
+    "penjamin": {
+      "type": "enumeration",
+      "enum": [
+        "Umum",
+        "BPJS Kesehatan",
+        "Asuransi Swasta",
+        "Member"
+      ]
+    },
+    "amount": {
+      "type": "integer",
+      "default": 0
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Diajukan",
+        "Diproses",
+        "Dibayar",
+        "Ditolak"
+      ],
+      "default": "Diajukan"
+    },
+    "date": {
+      "type": "date"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "insurance_claims"
+    }
+  }
+}

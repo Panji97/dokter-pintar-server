@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "penerimaans",
+  "info": {
+    "singularName": "penerimaan",
+    "pluralName": "penerimaans",
+    "displayName": "Penerimaan"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "supplier": {
+      "type": "string"
+    },
+    "faktur": {
+      "type": "string"
+    },
+    "items": {
+      "type": "json"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "penerimaans"
+    }
+  }
+}

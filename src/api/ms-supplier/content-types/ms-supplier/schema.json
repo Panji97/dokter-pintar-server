@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ms_suppliers",
+  "info": {
+    "singularName": "ms-supplier",
+    "pluralName": "ms-suppliers",
+    "displayName": "Ms Supplier"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    }
+  }
+}

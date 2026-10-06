@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "letters",
+  "info": {
+    "singularName": "letter",
+    "pluralName": "letters",
+    "displayName": "Letter"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "kind": {
+      "type": "enumeration",
+      "enum": [
+        "Surat Sakit",
+        "Surat Sehat",
+        "Surat Keterangan",
+        "Surat Kontrol",
+        "Surat Kematian"
+      ]
+    },
+    "patientName": {
+      "type": "string"
+    },
+    "doctor": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "notes": {
+      "type": "text"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "letters"
+    }
+  }
+}

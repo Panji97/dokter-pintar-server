@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "returs",
+  "info": {
+    "singularName": "retur",
+    "pluralName": "returs",
+    "displayName": "Retur"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "date": {
+      "type": "date"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Retur Pengeluaran",
+        "Retur Penerimaan"
+      ]
+    },
+    "items": {
+      "type": "json"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "returs"
+    }
+  }
+}

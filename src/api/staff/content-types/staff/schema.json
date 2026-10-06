@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "staffs",
+  "info": {
+    "singularName": "staff",
+    "pluralName": "staffs",
+    "displayName": "Staff"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "role": {
+      "type": "enumeration",
+      "enum": [
+        "Dokter Gigi",
+        "Dokter Umum",
+        "Perawat",
+        "Apoteker",
+        "Kasir",
+        "Admin"
+      ]
+    },
+    "room": {
+      "type": "string"
+    },
+    "sip": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "staffs"
+    }
+  }
+}

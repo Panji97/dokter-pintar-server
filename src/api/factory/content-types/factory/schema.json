@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "factories",
+  "info": {
+    "singularName": "factory",
+    "pluralName": "factories",
+    "displayName": "Faskes Pabrik"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "factories"
+    }
+  }
+}

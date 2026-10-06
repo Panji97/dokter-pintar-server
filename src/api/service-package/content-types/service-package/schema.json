@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "service_packages",
+  "info": {
+    "singularName": "service-package",
+    "pluralName": "service-packages",
+    "displayName": "ServicePackage"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "totalSessions": {
+      "type": "integer",
+      "default": 0
+    },
+    "usedSessions": {
+      "type": "integer",
+      "default": 0
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "patientName": {
+      "type": "string"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "service_packages"
+    }
+  }
+}

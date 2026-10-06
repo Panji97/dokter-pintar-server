@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "referrals",
+  "info": {
+    "singularName": "referral",
+    "pluralName": "referrals",
+    "displayName": "Referral"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "kind": {
+      "type": "enumeration",
+      "enum": [
+        "Rujukan Internal",
+        "Rujukan ke Fasilitas Lain"
+      ]
+    },
+    "patientName": {
+      "type": "string"
+    },
+    "doctor": {
+      "type": "string"
+    },
+    "destination": {
+      "type": "string"
+    },
+    "diagnosis": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "referrals"
+    }
+  }
+}

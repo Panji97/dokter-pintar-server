@@ -1,0 +1,77 @@
+{
+  "kind": "collectionType",
+  "collectionName": "medicines",
+  "info": {
+    "singularName": "medicine",
+    "pluralName": "medicines",
+    "displayName": "Faskes Obat"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Antibiotik",
+        "Analgesik",
+        "Anastesi",
+        "BHP Gigi",
+        "Vitamin",
+        "Lainnya",
+        "Alkes"
+      ]
+    },
+    "form": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "enumeration",
+      "enum": [
+        "Tablet",
+        "Kapsul",
+        "Botol",
+        "Ampul",
+        "Pcs",
+        "Strip",
+        "Buah"
+      ]
+    },
+    "stock": {
+      "type": "integer",
+      "default": 0
+    },
+    "minStock": {
+      "type": "integer",
+      "default": 0
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "batchNumber": {
+      "type": "string"
+    },
+    "expiryDate": {
+      "type": "date"
+    },
+    "supplier": {
+      "type": "string"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "medicines"
+    }
+  }
+}
