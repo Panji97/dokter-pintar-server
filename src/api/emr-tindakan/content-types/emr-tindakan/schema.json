@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "emr_tindakans",
+  "info": {
+    "singularName": "emr-tindakan",
+    "pluralName": "emr-tindakans",
+    "displayName": "EmrTindakan"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "tooth": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "default": 1
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "discount": {
+      "type": "integer",
+      "default": 0
+    },
+    "emr_document": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::emr-document.emr-document",
+      "inversedBy": "tindakan"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "emr_tindakans"
+    }
+  }
+}

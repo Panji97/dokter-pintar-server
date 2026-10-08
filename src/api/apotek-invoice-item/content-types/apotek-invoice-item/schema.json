@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "apotek_invoice_items",
+  "info": {
+    "singularName": "apotek-invoice-item",
+    "pluralName": "apotek-invoice-items",
+    "displayName": "ApotekInvoiceItem"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "default": 0
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "apotek_invoice": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::apotek-invoice.apotek-invoice",
+      "inversedBy": "items"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "apotek_invoice_items"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "penyesuaian_items",
+  "info": {
+    "singularName": "penyesuaian-item",
+    "pluralName": "penyesuaian-items",
+    "displayName": "PenyesuaianItem"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "stockBefore": {
+      "type": "integer",
+      "default": 0
+    },
+    "stockAfter": {
+      "type": "integer",
+      "default": 0
+    },
+    "reason": {
+      "type": "text"
+    },
+    "penyesuaian": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::penyesuaian.penyesuaian",
+      "inversedBy": "items"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "penyesuaian_items"
+    }
+  }
+}

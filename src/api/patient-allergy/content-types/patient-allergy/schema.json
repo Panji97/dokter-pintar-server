@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "patient_allergies",
+  "info": {
+    "singularName": "patient-allergy",
+    "pluralName": "patient-allergies",
+    "displayName": "PatientAllergy"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "alergen": {
+      "type": "string",
+      "required": true
+    },
+    "keterangan": {
+      "type": "string"
+    },
+    "patient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::patient.patient",
+      "inversedBy": "allergies"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "patient_allergies"
+    }
+  }
+}

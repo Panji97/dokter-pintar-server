@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "emr_odontogram_gigis",
+  "info": {
+    "singularName": "emr-odontogram-gigi",
+    "pluralName": "emr-odontogram-gigis",
+    "displayName": "EmrOdontogramGigi"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "toothNumber": {
+      "type": "integer",
+      "required": true
+    },
+    "condition": {
+      "type": "string",
+      "required": true
+    },
+    "surfaceTop": {
+      "type": "string"
+    },
+    "surfaceBottom": {
+      "type": "string"
+    },
+    "surfaceLeft": {
+      "type": "string"
+    },
+    "surfaceRight": {
+      "type": "string"
+    },
+    "surfaceCenter": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "text"
+    },
+    "emr_document": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::emr-document.emr-document",
+      "inversedBy": "odontogramGigi"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "emr_odontogram_gigis"
+    }
+  }
+}

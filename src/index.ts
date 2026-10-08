@@ -13,8 +13,8 @@ export default {
    * An asynchronous bootstrap function that runs before
    * your application gets started.
    *
-   * This gives you an opportunity to set up your data model,
-   * run jobs, or perform some special logic.
+   * CATATAN: permission role diatur langsung di database
+   * (tabel up_permissions) — bukan lewat kode di sini.
    */
   bootstrap(/* { strapi }: { strapi: Core.Strapi } */) {},
 };

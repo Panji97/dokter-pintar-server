@@ -171,6 +171,78 @@
       "relation": "oneToMany",
       "target": "plugin::users-permissions.user",
       "mappedBy": "faskes"
+    },
+    "emr_kondisis": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-kondisi.emr-kondisi",
+      "mappedBy": "faskes"
+    },
+    "emr_odontogram_gigis": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-odontogram-gigi.emr-odontogram-gigi",
+      "mappedBy": "faskes"
+    },
+    "emr_diagnosas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-diagnosa.emr-diagnosa",
+      "mappedBy": "faskes"
+    },
+    "emr_tindakans": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-tindakan.emr-tindakan",
+      "mappedBy": "faskes"
+    },
+    "emr_alkes_list": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-alkes.emr-alkes",
+      "mappedBy": "faskes"
+    },
+    "emr_reseps": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-resep.emr-resep",
+      "mappedBy": "faskes"
+    },
+    "emr_resep_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-resep-item.emr-resep-item",
+      "mappedBy": "faskes"
+    },
+    "patient_allergies": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::patient-allergy.patient-allergy",
+      "mappedBy": "faskes"
+    },
+    "penerimaan_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::penerimaan-item.penerimaan-item",
+      "mappedBy": "faskes"
+    },
+    "penyesuaian_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::penyesuaian-item.penyesuaian-item",
+      "mappedBy": "faskes"
+    },
+    "retur_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::retur-item.retur-item",
+      "mappedBy": "faskes"
+    },
+    "apotek_invoice_items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::apotek-invoice-item.apotek-invoice-item",
+      "mappedBy": "faskes"
     }
   }
 }

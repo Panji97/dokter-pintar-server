@@ -22,7 +22,10 @@
       ]
     },
     "items": {
-      "type": "json"
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::retur-item.retur-item",
+      "mappedBy": "retur"
     },
     "faskes": {
       "type": "relation",

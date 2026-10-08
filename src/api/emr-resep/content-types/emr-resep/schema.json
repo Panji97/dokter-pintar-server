@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "emr_reseps",
+  "info": {
+    "singularName": "emr-resep",
+    "pluralName": "emr-reseps",
+    "displayName": "EmrResep"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "jenis": {
+      "type": "enumeration",
+      "enum": [
+        "apotek",
+        "rujukan"
+      ],
+      "required": true
+    },
+    "urutan": {
+      "type": "integer",
+      "default": 0
+    },
+    "items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-resep-item.emr-resep-item",
+      "mappedBy": "resep"
+    },
+    "emr_document": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::emr-document.emr-document",
+      "inversedBy": "reseps"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "emr_reseps"
+    }
+  }
+}

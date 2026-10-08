@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "emr_resep_items",
+  "info": {
+    "singularName": "emr-resep-item",
+    "pluralName": "emr-resep-items",
+    "displayName": "EmrResepItem"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "default": 1
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "resep": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::emr-resep.emr-resep",
+      "inversedBy": "items"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "emr_resep_items"
+    }
+  }
+}

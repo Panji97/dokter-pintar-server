@@ -15,45 +15,164 @@
       "type": "string",
       "required": true
     },
-    "anamnesaUmum": {
-      "type": "json"
+    "registration": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::registration.registration",
+      "inversedBy": "emr_documents"
     },
-    "anamnesaOdontogram": {
-      "type": "json"
+    "patient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::patient.patient",
+      "inversedBy": "emr_documents"
     },
-    "pemeriksaanUmum": {
-      "type": "json"
+    "riwayatPenyakit": {
+      "type": "text"
     },
-    "kondisi": {
-      "type": "json"
+    "keluhanUtama": {
+      "type": "text"
     },
-    "odontogram": {
-      "type": "json"
+    "keluhanTambahan": {
+      "type": "text"
     },
-    "diagnosa": {
-      "type": "json"
+    "penyakitSaatIni": {
+      "type": "text"
     },
-    "tindakan": {
-      "type": "json"
+    "gravida": {
+      "type": "string"
     },
-    "alkes": {
-      "type": "json"
+    "alergiGatal": {
+      "type": "string"
     },
-    "resepApotek": {
-      "type": "json"
+    "alergiDebu": {
+      "type": "string"
     },
-    "resepRujukan": {
-      "type": "json"
+    "alergiObat": {
+      "type": "string"
     },
-    "cppt": {
-      "type": "json"
+    "alergiMakanan": {
+      "type": "string"
     },
-    "dokumen": {
-      "type": "json"
+    "alergiLainnya": {
+      "type": "string"
+    },
+    "alergiUdara": {
+      "type": "string"
+    },
+    "occlusi": {
+      "type": "string"
+    },
+    "torusPlatinus": {
+      "type": "string"
+    },
+    "torusMandibularis": {
+      "type": "string"
+    },
+    "palatum": {
+      "type": "string"
+    },
+    "diastema": {
+      "type": "string"
+    },
+    "gigiAnomali": {
+      "type": "string"
+    },
+    "odontoLain": {
+      "type": "string"
+    },
+    "deskripsiPemeriksaan": {
+      "type": "text"
+    },
+    "nadi": {
+      "type": "string"
+    },
+    "tensiSistolik": {
+      "type": "string"
+    },
+    "tensiDiastolik": {
+      "type": "string"
+    },
+    "suhu": {
+      "type": "string"
+    },
+    "beratBadan": {
+      "type": "string"
+    },
+    "tinggiBadan": {
+      "type": "string"
+    },
+    "pernapasan": {
+      "type": "string"
+    },
+    "mata": {
+      "type": "string"
+    },
+    "gigiMulut": {
+      "type": "string"
+    },
+    "kulit": {
+      "type": "string"
+    },
+    "dokumenGeneralConsent": {
+      "type": "boolean",
+      "default": false
+    },
+    "dokumenAsesmenAwal": {
+      "type": "boolean",
+      "default": false
+    },
+    "dokumenInformedConsent": {
+      "type": "boolean",
+      "default": false
+    },
+    "dokumenAsesmenPraTindakan": {
+      "type": "boolean",
+      "default": false
+    },
+    "dokumenSurgicalSafety": {
+      "type": "boolean",
+      "default": false
     },
     "photoCount": {
       "type": "integer",
       "default": 0
+    },
+    "kondisi": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-kondisi.emr-kondisi",
+      "mappedBy": "emr_document"
+    },
+    "odontogramGigi": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-odontogram-gigi.emr-odontogram-gigi",
+      "mappedBy": "emr_document"
+    },
+    "diagnosa": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-diagnosa.emr-diagnosa",
+      "mappedBy": "emr_document"
+    },
+    "tindakan": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-tindakan.emr-tindakan",
+      "mappedBy": "emr_document"
+    },
+    "alkes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-alkes.emr-alkes",
+      "mappedBy": "emr_document"
+    },
+    "reseps": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-resep.emr-resep",
+      "mappedBy": "emr_document"
     },
     "faskes": {
       "type": "relation",

@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "emr_alkes_list",
+  "info": {
+    "singularName": "emr-alkes",
+    "pluralName": "emr-alkes-list",
+    "displayName": "EmrAlkes"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "default": 1
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "emr_document": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::emr-document.emr-document",
+      "inversedBy": "alkes"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "emr_alkes_list"
+    }
+  }
+}

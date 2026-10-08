@@ -41,7 +41,22 @@
       "type": "string"
     },
     "allergies": {
-      "type": "json"
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::patient-allergy.patient-allergy",
+      "mappedBy": "patient"
+    },
+    "registrations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::registration.registration",
+      "mappedBy": "patient"
+    },
+    "emr_documents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-document.emr-document",
+      "mappedBy": "patient"
     },
     "registeredAt": {
       "type": "date"

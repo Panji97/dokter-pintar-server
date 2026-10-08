@@ -443,6 +443,43 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiApotekInvoiceItemApotekInvoiceItem
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'apotek_invoice_items';
+  info: {
+    displayName: 'ApotekInvoiceItem';
+    pluralName: 'apotek-invoice-items';
+    singularName: 'apotek-invoice-item';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    apotek_invoice: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::apotek-invoice.apotek-invoice'
+    >;
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::apotek-invoice-item.apotek-invoice-item'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    price: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    qty: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiApotekInvoiceApotekInvoice
   extends Struct.CollectionTypeSchema {
   collectionName: 'apotek_invoices';
@@ -460,7 +497,10 @@ export interface ApiApotekInvoiceApotekInvoice
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
-    items: Schema.Attribute.JSON;
+    items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::apotek-invoice-item.apotek-invoice-item'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -579,6 +619,77 @@ export interface ApiClinicServiceClinicService
   };
 }
 
+export interface ApiEmrAlkesEmrAlkes extends Struct.CollectionTypeSchema {
+  collectionName: 'emr_alkes_list';
+  info: {
+    displayName: 'EmrAlkes';
+    pluralName: 'emr-alkes-list';
+    singularName: 'emr-alkes';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emr_document: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::emr-document.emr-document'
+    >;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-alkes.emr-alkes'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    price: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    qty: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEmrDiagnosaEmrDiagnosa extends Struct.CollectionTypeSchema {
+  collectionName: 'emr_diagnosas';
+  info: {
+    displayName: 'EmrDiagnosa';
+    pluralName: 'emr-diagnosas';
+    singularName: 'emr-diagnosa';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emr_document: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::emr-document.emr-document'
+    >;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    icd10Code: Schema.Attribute.String;
+    icd10Desc: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-diagnosa.emr-diagnosa'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    tipe: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiEmrDocumentEmrDocument extends Struct.CollectionTypeSchema {
   collectionName: 'emr_documents';
   info: {
@@ -590,31 +701,267 @@ export interface ApiEmrDocumentEmrDocument extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    alkes: Schema.Attribute.JSON;
-    anamnesaOdontogram: Schema.Attribute.JSON;
-    anamnesaUmum: Schema.Attribute.JSON;
-    cppt: Schema.Attribute.JSON;
+    alergiDebu: Schema.Attribute.String;
+    alergiGatal: Schema.Attribute.String;
+    alergiLainnya: Schema.Attribute.String;
+    alergiMakanan: Schema.Attribute.String;
+    alergiObat: Schema.Attribute.String;
+    alergiUdara: Schema.Attribute.String;
+    alkes: Schema.Attribute.Relation<'oneToMany', 'api::emr-alkes.emr-alkes'>;
+    beratBadan: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    diagnosa: Schema.Attribute.JSON;
-    dokumen: Schema.Attribute.JSON;
+    deskripsiPemeriksaan: Schema.Attribute.Text;
+    diagnosa: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-diagnosa.emr-diagnosa'
+    >;
+    diastema: Schema.Attribute.String;
+    dokumenAsesmenAwal: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    dokumenAsesmenPraTindakan: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    dokumenGeneralConsent: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    dokumenInformedConsent: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    dokumenSurgicalSafety: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
-    kondisi: Schema.Attribute.JSON;
+    gigiAnomali: Schema.Attribute.String;
+    gigiMulut: Schema.Attribute.String;
+    gravida: Schema.Attribute.String;
+    keluhanTambahan: Schema.Attribute.Text;
+    keluhanUtama: Schema.Attribute.Text;
+    kondisi: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-kondisi.emr-kondisi'
+    >;
+    kulit: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::emr-document.emr-document'
     > &
       Schema.Attribute.Private;
-    odontogram: Schema.Attribute.JSON;
-    pemeriksaanUmum: Schema.Attribute.JSON;
+    mata: Schema.Attribute.String;
+    nadi: Schema.Attribute.String;
+    occlusi: Schema.Attribute.String;
+    odontogramGigi: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-odontogram-gigi.emr-odontogram-gigi'
+    >;
+    odontoLain: Schema.Attribute.String;
+    palatum: Schema.Attribute.String;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
+    penyakitSaatIni: Schema.Attribute.Text;
+    pernapasan: Schema.Attribute.String;
     photoCount: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
     regId: Schema.Attribute.String & Schema.Attribute.Required;
-    resepApotek: Schema.Attribute.JSON;
-    resepRujukan: Schema.Attribute.JSON;
-    tindakan: Schema.Attribute.JSON;
+    registration: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::registration.registration'
+    >;
+    reseps: Schema.Attribute.Relation<'oneToMany', 'api::emr-resep.emr-resep'>;
+    riwayatPenyakit: Schema.Attribute.Text;
+    suhu: Schema.Attribute.String;
+    tensiDiastolik: Schema.Attribute.String;
+    tensiSistolik: Schema.Attribute.String;
+    tindakan: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-tindakan.emr-tindakan'
+    >;
+    tinggiBadan: Schema.Attribute.String;
+    torusMandibularis: Schema.Attribute.String;
+    torusPlatinus: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEmrKondisiEmrKondisi extends Struct.CollectionTypeSchema {
+  collectionName: 'emr_kondisis';
+  info: {
+    displayName: 'EmrKondisi';
+    pluralName: 'emr-kondisis';
+    singularName: 'emr-kondisi';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    deskripsi: Schema.Attribute.Text;
+    emr_document: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::emr-document.emr-document'
+    >;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-kondisi.emr-kondisi'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    toothNumber: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEmrOdontogramGigiEmrOdontogramGigi
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'emr_odontogram_gigis';
+  info: {
+    displayName: 'EmrOdontogramGigi';
+    pluralName: 'emr-odontogram-gigis';
+    singularName: 'emr-odontogram-gigi';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    condition: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emr_document: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::emr-document.emr-document'
+    >;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-odontogram-gigi.emr-odontogram-gigi'
+    > &
+      Schema.Attribute.Private;
+    notes: Schema.Attribute.Text;
+    publishedAt: Schema.Attribute.DateTime;
+    surfaceBottom: Schema.Attribute.String;
+    surfaceCenter: Schema.Attribute.String;
+    surfaceLeft: Schema.Attribute.String;
+    surfaceRight: Schema.Attribute.String;
+    surfaceTop: Schema.Attribute.String;
+    toothNumber: Schema.Attribute.Integer & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEmrResepItemEmrResepItem
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'emr_resep_items';
+  info: {
+    displayName: 'EmrResepItem';
+    pluralName: 'emr-resep-items';
+    singularName: 'emr-resep-item';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-resep-item.emr-resep-item'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    price: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    qty: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
+    resep: Schema.Attribute.Relation<'manyToOne', 'api::emr-resep.emr-resep'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEmrResepEmrResep extends Struct.CollectionTypeSchema {
+  collectionName: 'emr_reseps';
+  info: {
+    displayName: 'EmrResep';
+    pluralName: 'emr-reseps';
+    singularName: 'emr-resep';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emr_document: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::emr-document.emr-document'
+    >;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-resep-item.emr-resep-item'
+    >;
+    jenis: Schema.Attribute.Enumeration<['apotek', 'rujukan']> &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-resep.emr-resep'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    urutan: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+  };
+}
+
+export interface ApiEmrTindakanEmrTindakan extends Struct.CollectionTypeSchema {
+  collectionName: 'emr_tindakans';
+  info: {
+    displayName: 'EmrTindakan';
+    pluralName: 'emr-tindakans';
+    singularName: 'emr-tindakan';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    discount: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    emr_document: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::emr-document.emr-document'
+    >;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-tindakan.emr-tindakan'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    price: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    qty: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
+    tooth: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -663,6 +1010,10 @@ export interface ApiFaskesFaskes extends Struct.CollectionTypeSchema {
   };
   attributes: {
     address: Schema.Attribute.Text;
+    apotek_invoice_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::apotek-invoice-item.apotek-invoice-item'
+    >;
     apotek_invoices: Schema.Attribute.Relation<
       'oneToMany',
       'api::apotek-invoice.apotek-invoice'
@@ -676,9 +1027,37 @@ export interface ApiFaskesFaskes extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    emr_alkes_list: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-alkes.emr-alkes'
+    >;
+    emr_diagnosas: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-diagnosa.emr-diagnosa'
+    >;
     emr_documents: Schema.Attribute.Relation<
       'oneToMany',
       'api::emr-document.emr-document'
+    >;
+    emr_kondisis: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-kondisi.emr-kondisi'
+    >;
+    emr_odontogram_gigis: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-odontogram-gigi.emr-odontogram-gigi'
+    >;
+    emr_resep_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-resep-item.emr-resep-item'
+    >;
+    emr_reseps: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-resep.emr-resep'
+    >;
+    emr_tindakans: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-tindakan.emr-tindakan'
     >;
     factories: Schema.Attribute.Relation<'oneToMany', 'api::factory.factory'>;
     insurance_claims: Schema.Attribute.Relation<
@@ -697,11 +1076,19 @@ export interface ApiFaskesFaskes extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    patient_allergies: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::patient-allergy.patient-allergy'
+    >;
     patient_groups: Schema.Attribute.Relation<
       'oneToMany',
       'api::patient-group.patient-group'
     >;
     patients: Schema.Attribute.Relation<'oneToMany', 'api::patient.patient'>;
+    penerimaan_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::penerimaan-item.penerimaan-item'
+    >;
     penerimaans: Schema.Attribute.Relation<
       'oneToMany',
       'api::penerimaan.penerimaan'
@@ -709,6 +1096,10 @@ export interface ApiFaskesFaskes extends Struct.CollectionTypeSchema {
     pengeluarans: Schema.Attribute.Relation<
       'oneToMany',
       'api::pengeluaran.pengeluaran'
+    >;
+    penyesuaian_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::penyesuaian-item.penyesuaian-item'
     >;
     penyesuaians: Schema.Attribute.Relation<
       'oneToMany',
@@ -720,6 +1111,10 @@ export interface ApiFaskesFaskes extends Struct.CollectionTypeSchema {
     registrations: Schema.Attribute.Relation<
       'oneToMany',
       'api::registration.registration'
+    >;
+    retur_items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::retur-item.retur-item'
     >;
     returs: Schema.Attribute.Relation<'oneToMany', 'api::retur.retur'>;
     rooms: Schema.Attribute.Relation<'oneToMany', 'api::room.room'>;
@@ -1157,6 +1552,38 @@ export interface ApiMsSupplierMsSupplier extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPatientAllergyPatientAllergy
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'patient_allergies';
+  info: {
+    displayName: 'PatientAllergy';
+    pluralName: 'patient-allergies';
+    singularName: 'patient-allergy';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    alergen: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    keterangan: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::patient-allergy.patient-allergy'
+    > &
+      Schema.Attribute.Private;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPatientGroupPatientGroup
   extends Struct.CollectionTypeSchema {
   collectionName: 'patient_groups';
@@ -1201,12 +1628,19 @@ export interface ApiPatientPatient extends Struct.CollectionTypeSchema {
   };
   attributes: {
     address: Schema.Attribute.Text;
-    allergies: Schema.Attribute.JSON;
+    allergies: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::patient-allergy.patient-allergy'
+    >;
     birthDate: Schema.Attribute.Date;
     bloodType: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    emr_documents: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-document.emr-document'
+    >;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
     gender: Schema.Attribute.Enumeration<['L', 'P']>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1220,7 +1654,50 @@ export interface ApiPatientPatient extends Struct.CollectionTypeSchema {
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     registeredAt: Schema.Attribute.Date;
+    registrations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::registration.registration'
+    >;
     title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPenerimaanItemPenerimaanItem
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'penerimaan_items';
+  info: {
+    displayName: 'PenerimaanItem';
+    pluralName: 'penerimaan-items';
+    singularName: 'penerimaan-item';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    batch: Schema.Attribute.String;
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    expiry: Schema.Attribute.Date;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::penerimaan-item.penerimaan-item'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    penerimaan: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::penerimaan.penerimaan'
+    >;
+    price: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    publishedAt: Schema.Attribute.DateTime;
+    qty: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1244,7 +1721,10 @@ export interface ApiPenerimaanPenerimaan extends Struct.CollectionTypeSchema {
     date: Schema.Attribute.Date;
     faktur: Schema.Attribute.String;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
-    items: Schema.Attribute.JSON;
+    items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::penerimaan-item.penerimaan-item'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1293,6 +1773,44 @@ export interface ApiPengeluaranPengeluaran extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPenyesuaianItemPenyesuaianItem
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'penyesuaian_items';
+  info: {
+    displayName: 'PenyesuaianItem';
+    pluralName: 'penyesuaian-items';
+    singularName: 'penyesuaian-item';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::penyesuaian-item.penyesuaian-item'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    penyesuaian: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::penyesuaian.penyesuaian'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    reason: Schema.Attribute.Text;
+    stockAfter: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    stockBefore: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPenyesuaianPenyesuaian extends Struct.CollectionTypeSchema {
   collectionName: 'penyesuaians';
   info: {
@@ -1309,7 +1827,10 @@ export interface ApiPenyesuaianPenyesuaian extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
-    items: Schema.Attribute.JSON;
+    items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::penyesuaian-item.penyesuaian-item'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1377,6 +1898,10 @@ export interface ApiRegistrationRegistration
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     doctor: Schema.Attribute.String;
+    emr_documents: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::emr-document.emr-document'
+    >;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
     group: Schema.Attribute.Enumeration<
       ['Umum', 'BPJS Kesehatan', 'Asuransi Swasta', 'Member']
@@ -1387,6 +1912,7 @@ export interface ApiRegistrationRegistration
       'api::registration.registration'
     > &
       Schema.Attribute.Private;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientId: Schema.Attribute.String;
     patientName: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
@@ -1394,6 +1920,39 @@ export interface ApiRegistrationRegistration
     room: Schema.Attribute.String;
     serviceType: Schema.Attribute.String;
     status: Schema.Attribute.Enumeration<['Registrasi', 'Proses', 'Selesai']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiReturItemReturItem extends Struct.CollectionTypeSchema {
+  collectionName: 'retur_items';
+  info: {
+    displayName: 'ReturItem';
+    pluralName: 'retur-items';
+    singularName: 'retur-item';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::retur-item.retur-item'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    qty: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    reason: Schema.Attribute.Text;
+    retur: Schema.Attribute.Relation<'manyToOne', 'api::retur.retur'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1416,7 +1975,7 @@ export interface ApiReturRetur extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
-    items: Schema.Attribute.JSON;
+    items: Schema.Attribute.Relation<'oneToMany', 'api::retur-item.retur-item'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::retur.retur'> &
       Schema.Attribute.Private;
@@ -2134,11 +2693,19 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::apotek-invoice-item.apotek-invoice-item': ApiApotekInvoiceItemApotekInvoiceItem;
       'api::apotek-invoice.apotek-invoice': ApiApotekInvoiceApotekInvoice;
       'api::booking.booking': ApiBookingBooking;
       'api::brand.brand': ApiBrandBrand;
       'api::clinic-service.clinic-service': ApiClinicServiceClinicService;
+      'api::emr-alkes.emr-alkes': ApiEmrAlkesEmrAlkes;
+      'api::emr-diagnosa.emr-diagnosa': ApiEmrDiagnosaEmrDiagnosa;
       'api::emr-document.emr-document': ApiEmrDocumentEmrDocument;
+      'api::emr-kondisi.emr-kondisi': ApiEmrKondisiEmrKondisi;
+      'api::emr-odontogram-gigi.emr-odontogram-gigi': ApiEmrOdontogramGigiEmrOdontogramGigi;
+      'api::emr-resep-item.emr-resep-item': ApiEmrResepItemEmrResepItem;
+      'api::emr-resep.emr-resep': ApiEmrResepEmrResep;
+      'api::emr-tindakan.emr-tindakan': ApiEmrTindakanEmrTindakan;
       'api::factory.factory': ApiFactoryFactory;
       'api::faskes.faskes': ApiFaskesFaskes;
       'api::insurance-claim.insurance-claim': ApiInsuranceClaimInsuranceClaim;
@@ -2152,13 +2719,17 @@ declare module '@strapi/strapi' {
       'api::ms-poli.ms-poli': ApiMsPoliMsPoli;
       'api::ms-service.ms-service': ApiMsServiceMsService;
       'api::ms-supplier.ms-supplier': ApiMsSupplierMsSupplier;
+      'api::patient-allergy.patient-allergy': ApiPatientAllergyPatientAllergy;
       'api::patient-group.patient-group': ApiPatientGroupPatientGroup;
       'api::patient.patient': ApiPatientPatient;
+      'api::penerimaan-item.penerimaan-item': ApiPenerimaanItemPenerimaanItem;
       'api::penerimaan.penerimaan': ApiPenerimaanPenerimaan;
       'api::pengeluaran.pengeluaran': ApiPengeluaranPengeluaran;
+      'api::penyesuaian-item.penyesuaian-item': ApiPenyesuaianItemPenyesuaianItem;
       'api::penyesuaian.penyesuaian': ApiPenyesuaianPenyesuaian;
       'api::referral.referral': ApiReferralReferral;
       'api::registration.registration': ApiRegistrationRegistration;
+      'api::retur-item.retur-item': ApiReturItemReturItem;
       'api::retur.retur': ApiReturRetur;
       'api::room.room': ApiRoomRoom;
       'api::service-discount.service-discount': ApiServiceDiscountServiceDiscount;

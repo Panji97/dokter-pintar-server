@@ -21,7 +21,10 @@
       "type": "string"
     },
     "items": {
-      "type": "json"
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::penerimaan-item.penerimaan-item",
+      "mappedBy": "penerimaan"
     },
     "faskes": {
       "type": "relation",

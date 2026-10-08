@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "retur_items",
+  "info": {
+    "singularName": "retur-item",
+    "pluralName": "retur-items",
+    "displayName": "ReturItem"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "default": 0
+    },
+    "reason": {
+      "type": "text"
+    },
+    "retur": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::retur.retur",
+      "inversedBy": "items"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "retur_items"
+    }
+  }
+}

@@ -46,6 +46,18 @@
         "Selesai"
       ]
     },
+    "patient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::patient.patient",
+      "inversedBy": "registrations"
+    },
+    "emr_documents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::emr-document.emr-document",
+      "mappedBy": "registration"
+    },
     "faskes": {
       "type": "relation",
       "relation": "manyToOne",

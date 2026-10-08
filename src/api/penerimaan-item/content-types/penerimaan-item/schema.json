@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "penerimaan_items",
+  "info": {
+    "singularName": "penerimaan-item",
+    "pluralName": "penerimaan-items",
+    "displayName": "PenerimaanItem"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "integer",
+      "default": 0
+    },
+    "price": {
+      "type": "integer",
+      "default": 0
+    },
+    "batch": {
+      "type": "string"
+    },
+    "expiry": {
+      "type": "date"
+    },
+    "penerimaan": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::penerimaan.penerimaan",
+      "inversedBy": "items"
+    },
+    "faskes": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::faskes.faskes",
+      "inversedBy": "penerimaan_items"
+    }
+  }
+}
