@@ -129,6 +129,17 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
       });
 
       await seedFaskesMasters(strapi, created.documentId);
+
+      // Buat akun pendaftar sebagai staf pertama agar faskes langsung bisa registrasi pasien
+      await strapi.documents('api::staff.staff').create({
+        data: {
+          name: username,
+          role: 'Dokter Umum',
+          room: 'Poli Umum',
+          active: true,
+          faskes: created.documentId,
+        },
+      });
     } catch (err) {
       // Rollback parsial agar percobaan ulang tidak kena "sudah terdaftar".
       try {

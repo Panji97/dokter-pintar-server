@@ -42,7 +42,8 @@
       "type": "enumeration",
       "enum": [
         "Registrasi",
-        "Proses"
+        "Proses",
+        "Selesai"
       ]
     },
     "faskes": {

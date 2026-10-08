@@ -1393,7 +1393,7 @@ export interface ApiRegistrationRegistration
     regDate: Schema.Attribute.DateTime;
     room: Schema.Attribute.String;
     serviceType: Schema.Attribute.String;
-    status: Schema.Attribute.Enumeration<['Registrasi', 'Proses']>;
+    status: Schema.Attribute.Enumeration<['Registrasi', 'Proses', 'Selesai']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
