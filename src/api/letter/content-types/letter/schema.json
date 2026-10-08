@@ -38,6 +38,12 @@
       "relation": "manyToOne",
       "target": "api::faskes.faskes",
       "inversedBy": "letters"
+    },
+    "patient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::patient.patient",
+      "inversedBy": "letters"
     }
   }
 }

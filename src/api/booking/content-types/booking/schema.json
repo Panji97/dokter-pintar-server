@@ -51,6 +51,12 @@
       "relation": "manyToOne",
       "target": "api::faskes.faskes",
       "inversedBy": "bookings"
+    },
+    "patient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::patient.patient",
+      "inversedBy": "bookings"
     }
   }
 }

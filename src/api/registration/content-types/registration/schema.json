@@ -63,6 +63,12 @@
       "relation": "manyToOne",
       "target": "api::faskes.faskes",
       "inversedBy": "registrations"
+    },
+    "invoice": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::invoice.invoice",
+      "mappedBy": "registration"
     }
   }
 }

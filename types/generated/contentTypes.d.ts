@@ -507,6 +507,7 @@ export interface ApiApotekInvoiceApotekInvoice
       'api::apotek-invoice.apotek-invoice'
     > &
       Schema.Attribute.Private;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientName: Schema.Attribute.String;
     paymentStatus: Schema.Attribute.Enumeration<['Belum Dibayar', 'Lunas']> &
       Schema.Attribute.DefaultTo<'Belum Dibayar'>;
@@ -542,6 +543,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
       'api::booking.booking'
     > &
       Schema.Attribute.Private;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientName: Schema.Attribute.String;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
@@ -1166,6 +1168,7 @@ export interface ApiInsuranceClaimInsuranceClaim
       'api::insurance-claim.insurance-claim'
     > &
       Schema.Attribute.Private;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientName: Schema.Attribute.String;
     penjamin: Schema.Attribute.Enumeration<
       ['Umum', 'BPJS Kesehatan', 'Asuransi Swasta', 'Member']
@@ -1212,6 +1215,7 @@ export interface ApiInvoiceInvoice extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     medicineFee: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     paidAt: Schema.Attribute.Date;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientId: Schema.Attribute.String;
     patientName: Schema.Attribute.String;
     paymentMethod: Schema.Attribute.Enumeration<
@@ -1221,6 +1225,10 @@ export interface ApiInvoiceInvoice extends Struct.CollectionTypeSchema {
       Schema.Attribute.DefaultTo<'Belum Dibayar'>;
     procedureFee: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
+    registration: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::registration.registration'
+    >;
     total: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1262,6 +1270,7 @@ export interface ApiLetterLetter extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     notes: Schema.Attribute.Text;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientName: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -1632,8 +1641,13 @@ export interface ApiPatientPatient extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::patient-allergy.patient-allergy'
     >;
+    apotek_invoices: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::apotek-invoice.apotek-invoice'
+    >;
     birthDate: Schema.Attribute.Date;
     bloodType: Schema.Attribute.String;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1643,6 +1657,12 @@ export interface ApiPatientPatient extends Struct.CollectionTypeSchema {
     >;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
     gender: Schema.Attribute.Enumeration<['L', 'P']>;
+    insurance_claims: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::insurance-claim.insurance-claim'
+    >;
+    invoices: Schema.Attribute.Relation<'oneToMany', 'api::invoice.invoice'>;
+    letters: Schema.Attribute.Relation<'oneToMany', 'api::letter.letter'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1653,6 +1673,7 @@ export interface ApiPatientPatient extends Struct.CollectionTypeSchema {
     nik: Schema.Attribute.String;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    referrals: Schema.Attribute.Relation<'oneToMany', 'api::referral.referral'>;
     registeredAt: Schema.Attribute.Date;
     registrations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1874,6 +1895,7 @@ export interface ApiReferralReferral extends Struct.CollectionTypeSchema {
       'api::referral.referral'
     > &
       Schema.Attribute.Private;
+    patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientName: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -1906,6 +1928,7 @@ export interface ApiRegistrationRegistration
     group: Schema.Attribute.Enumeration<
       ['Umum', 'BPJS Kesehatan', 'Asuransi Swasta', 'Member']
     >;
+    invoice: Schema.Attribute.Relation<'oneToOne', 'api::invoice.invoice'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

@@ -66,6 +66,42 @@
       "relation": "manyToOne",
       "target": "api::faskes.faskes",
       "inversedBy": "patients"
+    },
+    "invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::invoice.invoice",
+      "mappedBy": "patient"
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
+      "mappedBy": "patient"
+    },
+    "letters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::letter.letter",
+      "mappedBy": "patient"
+    },
+    "referrals": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::referral.referral",
+      "mappedBy": "patient"
+    },
+    "apotek_invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::apotek-invoice.apotek-invoice",
+      "mappedBy": "patient"
+    },
+    "insurance_claims": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::insurance-claim.insurance-claim",
+      "mappedBy": "patient"
     }
   }
 }

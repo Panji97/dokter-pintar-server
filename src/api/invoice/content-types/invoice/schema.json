@@ -85,6 +85,18 @@
       "relation": "manyToOne",
       "target": "api::faskes.faskes",
       "inversedBy": "invoices"
+    },
+    "patient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::patient.patient",
+      "inversedBy": "invoices"
+    },
+    "registration": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::registration.registration",
+      "inversedBy": "invoice"
     }
   }
 }

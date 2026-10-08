@@ -45,6 +45,12 @@
       "relation": "manyToOne",
       "target": "api::faskes.faskes",
       "inversedBy": "insurance_claims"
+    },
+    "patient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::patient.patient",
+      "inversedBy": "insurance_claims"
     }
   }
 }
