@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ms_icds",
+  "info": {
+    "singularName": "ms-icd",
+    "pluralName": "ms-icds",
+    "displayName": "Ms ICD"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "desc": {
+      "type": "text",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["ICD-10", "ICD-9"],
+      "default": "ICD-10",
+      "required": true
+    }
+  }
+}

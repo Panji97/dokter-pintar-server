@@ -1388,6 +1388,40 @@ export interface ApiMsFactoryMsFactory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiMsIcdMsIcd extends Struct.CollectionTypeSchema {
+  collectionName: 'ms_icds';
+  info: {
+    displayName: 'Ms ICD';
+    pluralName: 'ms-icds';
+    singularName: 'ms-icd';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    category: Schema.Attribute.Enumeration<['ICD-10', 'ICD-9']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'ICD-10'>;
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    desc: Schema.Attribute.Text & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ms-icd.ms-icd'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiMsMedicineMsMedicine extends Struct.CollectionTypeSchema {
   collectionName: 'ms_medicines';
   info: {
@@ -2737,6 +2771,7 @@ declare module '@strapi/strapi' {
       'api::medicine.medicine': ApiMedicineMedicine;
       'api::ms-brand.ms-brand': ApiMsBrandMsBrand;
       'api::ms-factory.ms-factory': ApiMsFactoryMsFactory;
+      'api::ms-icd.ms-icd': ApiMsIcdMsIcd;
       'api::ms-medicine.ms-medicine': ApiMsMedicineMsMedicine;
       'api::ms-patient-group.ms-patient-group': ApiMsPatientGroupMsPatientGroup;
       'api::ms-poli.ms-poli': ApiMsPoliMsPoli;
