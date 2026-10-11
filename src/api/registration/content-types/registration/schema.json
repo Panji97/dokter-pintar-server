@@ -38,10 +38,13 @@
     "doctor": {
       "type": "string"
     },
+    "jadwal": {
+      "type": "string"
+    },
     "status": {
       "type": "enumeration",
       "enum": [
-        "Registrasi",
+        "Pendaftaran",
         "Proses",
         "Selesai"
       ]

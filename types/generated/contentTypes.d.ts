@@ -1471,6 +1471,37 @@ export interface ApiMsMedicineMsMedicine extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiMsOptionMsOption extends Struct.CollectionTypeSchema {
+  collectionName: 'ms_options';
+  info: {
+    displayName: 'Ms Opsi Dropdown';
+    pluralName: 'ms-options';
+    singularName: 'ms-option';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    group: Schema.Attribute.String & Schema.Attribute.Required;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ms-option.ms-option'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    urutan: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    value: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface ApiMsPatientGroupMsPatientGroup
   extends Struct.CollectionTypeSchema {
   collectionName: 'ms_patient_groups';
@@ -1963,6 +1994,7 @@ export interface ApiRegistrationRegistration
       ['Umum', 'BPJS Kesehatan', 'Asuransi Swasta', 'Member']
     >;
     invoice: Schema.Attribute.Relation<'oneToOne', 'api::invoice.invoice'>;
+    jadwal: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1976,7 +2008,7 @@ export interface ApiRegistrationRegistration
     regDate: Schema.Attribute.DateTime;
     room: Schema.Attribute.String;
     serviceType: Schema.Attribute.String;
-    status: Schema.Attribute.Enumeration<['Registrasi', 'Proses', 'Selesai']>;
+    status: Schema.Attribute.Enumeration<['Pendaftaran', 'Proses', 'Selesai']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -2773,6 +2805,7 @@ declare module '@strapi/strapi' {
       'api::ms-factory.ms-factory': ApiMsFactoryMsFactory;
       'api::ms-icd.ms-icd': ApiMsIcdMsIcd;
       'api::ms-medicine.ms-medicine': ApiMsMedicineMsMedicine;
+      'api::ms-option.ms-option': ApiMsOptionMsOption;
       'api::ms-patient-group.ms-patient-group': ApiMsPatientGroupMsPatientGroup;
       'api::ms-poli.ms-poli': ApiMsPoliMsPoli;
       'api::ms-service.ms-service': ApiMsServiceMsService;
