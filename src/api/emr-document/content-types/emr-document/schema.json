@@ -138,6 +138,14 @@
       "type": "integer",
       "default": 0
     },
+    "photos": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
     "kondisi": {
       "type": "relation",
       "relation": "oneToMany",

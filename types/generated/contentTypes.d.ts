@@ -760,6 +760,7 @@ export interface ApiEmrDocumentEmrDocument extends Struct.CollectionTypeSchema {
     penyakitSaatIni: Schema.Attribute.Text;
     pernapasan: Schema.Attribute.String;
     photoCount: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    photos: Schema.Attribute.Media<'images', true>;
     publishedAt: Schema.Attribute.DateTime;
     regId: Schema.Attribute.String & Schema.Attribute.Required;
     registration: Schema.Attribute.Relation<

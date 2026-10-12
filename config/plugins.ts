@@ -34,6 +34,25 @@ const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin =>
   },
   upload: {
     config: {
+      // Penyimpanan media via MinIO (kompatibel S3) — pola yang sama dipakai
+      // project HRIS (provider aws-s3 + forcePathStyle). Bucket: dpi.
+      provider: 'aws-s3',
+      providerOptions: {
+        s3Options: {
+          credentials: {
+            accessKeyId: env('MINIO_ACCESS_KEY'),
+            secretAccessKey: env('MINIO_SECRET_KEY'),
+          },
+          region: env('MINIO_REGION', 'us-east-1'),
+          endpoint: env('MINIO_ENDPOINT'),
+          params: {
+            Bucket: env('MINIO_BUCKET', 'dpi'),
+          },
+          forcePathStyle: true,
+        },
+        baseUrl: env('MINIO_PUBLIC_URL'),
+      },
+      sizeLimit: 0,
       security: {
         allowedTypes: allowedMediaTypes,
         deniedTypes,
