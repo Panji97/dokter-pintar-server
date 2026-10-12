@@ -26,7 +26,10 @@ const deniedTypes = [
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({
   'users-permissions': {
     config: {
-      jwtManagement: 'refresh',
+      // legacy-support: JWT Content API 30 hari seperti HRIS (client menyimpan
+      // token di localStorage tanpa alur refresh — mode 'refresh' membuat
+      // token mati tiap 10 menit dan user mental ke login).
+      jwtManagement: 'legacy-support',
       sessions: {
         httpOnly: true,
       },
