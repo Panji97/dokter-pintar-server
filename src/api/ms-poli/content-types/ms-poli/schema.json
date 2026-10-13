@@ -15,10 +15,6 @@
       "type": "string",
       "required": true,
       "unique": true
-    },
-    "satusehat": {
-      "type": "boolean",
-      "default": false
     }
   }
 }

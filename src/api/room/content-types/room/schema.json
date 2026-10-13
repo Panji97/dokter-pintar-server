@@ -15,10 +15,6 @@
       "type": "string",
       "required": true
     },
-    "satusehat": {
-      "type": "boolean",
-      "default": false
-    },
     "faskes": {
       "type": "relation",
       "relation": "manyToOne",

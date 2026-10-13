@@ -4,9 +4,11 @@
  * - POST /api/faskes/staff (admin faskes): undang akun login staf di faskesnya
  * - GET  /api/faskes/staff (login): daftar akun login di faskesnya
  * - GET  /api/faskes/roles (login): daftar role bawaan Strapi yang bisa dipilih
+ * - GET  /api/faskes/me (login): profil diri + role + faskes
  *
- * Peran memakai relasi bawaan users-permissions (`role`), bukan field
- * custom `appRole`, agar permission bisa diatur per-modul via Admin Panel > Roles.
+ * Kaitan akun login <-> faskes memakai relasi langsung `user.faskes`
+ * (extension users-permissions). Peran memakai relasi bawaan `role` agar
+ * permission bisa diatur per-modul via Admin Panel > Roles.
  */
 import { factories } from '@strapi/strapi';
 import { errors } from '@strapi/utils';
@@ -26,6 +28,7 @@ const roleName = (u: any): string => {
 
 const sanitizeUser = (u: any) => {
   const r = Array.isArray(u.role) ? u.role[0] : u.role;
+  const fk = Array.isArray(u.faskes) ? u.faskes[0] : u.faskes;
   return {
     id: u.id,
     documentId: u.documentId,
@@ -34,8 +37,8 @@ const sanitizeUser = (u: any) => {
     role: r
       ? { id: r.id, documentId: r.documentId, name: r.name, type: r.type }
       : null,
-    faskes: u.faskes
-      ? { documentId: u.faskes.documentId, name: u.faskes.name }
+    faskes: fk
+      ? { documentId: fk.documentId, name: fk.name }
       : null,
   };
 };
@@ -48,8 +51,9 @@ async function getCaller(strapi: any, ctx: any) {
     populate: ['faskes', 'role'],
   });
   if (!me || me.blocked) throw new UnauthorizedError('Akun tidak valid.');
-  if (!me.faskes) throw new ForbiddenError('Akun belum terikat ke faskes.');
-  return me;
+  const fk = Array.isArray(me.faskes) ? me.faskes[0] : me.faskes;
+  if (!fk?.documentId) throw new ForbiddenError('Akun belum terikat ke faskes.');
+  return { ...me, faskes: fk };
 }
 
 async function findRoleByName(strapi: any, name: string) {
@@ -84,7 +88,7 @@ async function resolveRole(strapi: any, input: unknown): Promise<any> {
  * Faskes baru langsung bisa dipakai tanpa isi master di Pengaturan.
  */
 const MASTER_COPIES: Array<{ from: string; to: string; pick: string[]; defaults?: Record<string, unknown> }> = [
-  { from: 'api::ms-poli.ms-poli', to: 'api::room.room', pick: ['name', 'satusehat'] },
+  { from: 'api::ms-poli.ms-poli', to: 'api::room.room', pick: ['name'] },
   { from: 'api::ms-patient-group.ms-patient-group', to: 'api::patient-group.patient-group', pick: ['name', 'code', 'description'] },
   { from: 'api::ms-service.ms-service', to: 'api::clinic-service.clinic-service', pick: ['code', 'name', 'price', 'room'] },
   { from: 'api::ms-medicine.ms-medicine', to: 'api::medicine.medicine', pick: ['code', 'name', 'category', 'form', 'unit', 'minStock', 'price', 'supplier'], defaults: { stock: 0 } },
@@ -197,7 +201,7 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
       data: {
         jwt,
         faskes: { documentId: created.documentId, name: created.name },
-        user: sanitizeUser({ ...(full ?? user), faskes: full?.faskes ?? created }),
+        user: sanitizeUser(full ?? { ...user, faskes: created }),
       },
       meta: {},
     });
@@ -213,8 +217,7 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
     const cleanEmail = String(payload.email ?? '').trim().toLowerCase();
     const pw = String(payload.password ?? '');
     // Terima `role` (nama/id/documentId/type bawaan Strapi).
-    // Tetap terima `appRole` lama sebagai alias agar client lama tidak pecah.
-    const roleInput = payload.role ?? payload.roleId ?? payload.appRole ?? 'Pengguna';
+    const roleInput = payload.role ?? payload.roleId ?? 'Pengguna';
 
     if (cleanName.length < 3) throw new ValidationError('Nama staf minimal 3 karakter.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(cleanEmail))
@@ -244,7 +247,7 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
       populate: ['faskes', 'role'],
     });
 
-    ctx.send({ data: sanitizeUser({ ...(full ?? user), faskes: full?.faskes ?? me.faskes }), meta: {} });
+    ctx.send({ data: sanitizeUser(full ?? { ...user, faskes: me.faskes }), meta: {} });
   },
 
   async listStaff(ctx: any) {
