@@ -16,5 +16,15 @@ export default {
       path: '/faskes/staff',
       handler: 'faskes.listStaff',
     },
+    {
+      method: 'GET',
+      path: '/faskes/roles',
+      handler: 'faskes.listRoles',
+    },
+    {
+      method: 'GET',
+      path: '/faskes/me',
+      handler: 'faskes.me',
+    },
   ],
 };

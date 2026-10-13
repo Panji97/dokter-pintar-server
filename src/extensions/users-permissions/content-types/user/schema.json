@@ -66,10 +66,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "appRole": {
-      "type": "string",
-      "default": "Pengguna"
-    },
     "faskes": {
       "type": "relation",
       "relation": "manyToOne",

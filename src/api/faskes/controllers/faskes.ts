@@ -1,40 +1,49 @@
 /**
- * faskes controller — core CRUD bawaan + 3 aksi custom multi-tenant:
+ * faskes controller — core CRUD bawaan + aksi custom multi-tenant:
  * - POST /api/faskes/register (publik): daftar faskes baru + akun Admin Faskes
  * - POST /api/faskes/staff (admin faskes): undang akun login staf di faskesnya
  * - GET  /api/faskes/staff (login): daftar akun login di faskesnya
+ * - GET  /api/faskes/roles (login): daftar role bawaan Strapi yang bisa dipilih
+ *
+ * Peran memakai relasi bawaan users-permissions (`role`), bukan field
+ * custom `appRole`, agar permission bisa diatur per-modul via Admin Panel > Roles.
  */
 import { factories } from '@strapi/strapi';
 import { errors } from '@strapi/utils';
 
 const { ValidationError, UnauthorizedError, ForbiddenError } = errors;
 
-const ADMIN_ROLES = ['Administrator', 'Admin Faskes'];
-const STAFF_ROLES = [
-  'Admin Faskes',
-  'Dokter Gigi',
-  'Dokter Umum',
-  'Perawat',
-  'Apoteker',
-  'Kasir',
-  'Pengguna',
-];
+const ROLE_UID = 'plugin::users-permissions.role';
+const USER_UID = 'plugin::users-permissions.user';
 
-const sanitizeUser = (u: any) => ({
-  id: u.id,
-  documentId: u.documentId,
-  username: u.username,
-  email: u.email,
-  appRole: u.appRole,
-  faskes: u.faskes
-    ? { documentId: u.faskes.documentId, name: u.faskes.name }
-    : null,
-});
+// Hanya peran ini yang boleh mengundang staf.
+const ADMIN_ROLE_NAMES = ['Admin Faskes', 'Administrator'];
+
+const roleName = (u: any): string => {
+  const r = Array.isArray(u?.role) ? u.role[0] : u?.role;
+  return String(r?.name ?? '');
+};
+
+const sanitizeUser = (u: any) => {
+  const r = Array.isArray(u.role) ? u.role[0] : u.role;
+  return {
+    id: u.id,
+    documentId: u.documentId,
+    username: u.username,
+    email: u.email,
+    role: r
+      ? { id: r.id, documentId: r.documentId, name: r.name, type: r.type }
+      : null,
+    faskes: u.faskes
+      ? { documentId: u.faskes.documentId, name: u.faskes.name }
+      : null,
+  };
+};
 
 async function getCaller(strapi: any, ctx: any) {
   const docId = ctx.state?.user?.documentId;
   if (!docId) throw new UnauthorizedError('Login diperlukan.');
-  const me: any = await strapi.documents('plugin::users-permissions.user').findOne({
+  const me: any = await strapi.documents(USER_UID).findOne({
     documentId: docId,
     populate: ['faskes', 'role'],
   });
@@ -43,12 +52,31 @@ async function getCaller(strapi: any, ctx: any) {
   return me;
 }
 
-async function getAuthRole(strapi: any) {
-  const role: any = await strapi.documents('plugin::users-permissions.role').findFirst({
-    filters: { type: 'authenticated' },
-  });
-  if (!role) throw new ValidationError('Role Authenticated tidak ditemukan.');
-  return role;
+async function findRoleByName(strapi: any, name: string) {
+  return strapi.documents(ROLE_UID).findFirst({ filters: { name } });
+}
+
+async function resolveRole(strapi: any, input: unknown): Promise<any> {
+  const raw = String(input ?? '').trim();
+  if (!raw) throw new ValidationError('Peran wajib dipilih.');
+  // Dukung id numerik, documentId, nama, maupun type.
+  const asId = Number(raw);
+  let found: any = null;
+  if (Number.isInteger(asId) && asId > 0) {
+    found = await strapi.db.query(ROLE_UID).findOne({ where: { id: asId } });
+  }
+  if (!found) {
+    found = await strapi.documents(ROLE_UID).findFirst({
+      filters: {
+        $or: [{ name: raw }, { type: raw }, { documentId: raw }],
+      },
+    });
+  }
+  if (!found) throw new ValidationError('Peran tidak dikenal.');
+  if (['public'].includes(String(found.type))) {
+    throw new ValidationError('Peran tersebut tidak boleh dipakai untuk staf.');
+  }
+  return found;
 }
 
 /**
@@ -98,7 +126,7 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
     });
     if (existingFaskes) throw new ValidationError('Nama faskes sudah terdaftar.');
     const existingUser: any = await strapi
-      .documents('plugin::users-permissions.user')
+      .documents(USER_UID)
       .findFirst({ filters: { email } });
     if (existingUser) throw new ValidationError('Email sudah terdaftar.');
 
@@ -110,11 +138,14 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
       },
     });
 
-    const authRole = await getAuthRole(strapi);
+    const adminRole =
+      (await findRoleByName(strapi, 'Admin Faskes')) ??
+      (await strapi.documents(ROLE_UID).findFirst({ filters: { type: 'authenticated' } }));
+    if (!adminRole) throw new ValidationError('Role Admin Faskes / Authenticated tidak ditemukan.');
 
     let user: any = null;
     try {
-      user = await strapi.documents('plugin::users-permissions.user').create({
+      user = await strapi.documents(USER_UID).create({
         data: {
           username,
           email,
@@ -122,8 +153,7 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
           confirmed: true,
           blocked: false,
           provider: 'local',
-          role: authRole.id,
-          appRole: 'Admin Faskes',
+          role: adminRole.documentId ?? adminRole.id,
           faskes: created.documentId,
         },
       });
@@ -144,7 +174,7 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
       // Rollback parsial agar percobaan ulang tidak kena "sudah terdaftar".
       try {
         if (user?.documentId) {
-          await strapi.documents('plugin::users-permissions.user').delete({
+          await strapi.documents(USER_UID).delete({
             documentId: user.documentId,
           });
         }
@@ -158,12 +188,16 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
     }
 
     const jwt = await strapi.plugin('users-permissions').service('jwt').issue({ id: user.id });
+    const full = await strapi.documents(USER_UID).findOne({
+      documentId: user.documentId,
+      populate: ['faskes', 'role'],
+    });
 
     ctx.send({
       data: {
         jwt,
         faskes: { documentId: created.documentId, name: created.name },
-        user: sanitizeUser({ ...user, faskes: created }),
+        user: sanitizeUser({ ...(full ?? user), faskes: full?.faskes ?? created }),
       },
       meta: {},
     });
@@ -171,29 +205,29 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
 
   async inviteStaff(ctx: any) {
     const me = await getCaller(strapi, ctx);
-    if (!ADMIN_ROLES.includes(me.appRole))
+    if (!ADMIN_ROLE_NAMES.includes(roleName(me)))
       throw new ForbiddenError('Hanya admin faskes yang bisa mengundang staf.');
 
     const payload = ctx.request.body?.data ?? ctx.request.body ?? {};
     const cleanName = String(payload.name ?? '').trim();
     const cleanEmail = String(payload.email ?? '').trim().toLowerCase();
     const pw = String(payload.password ?? '');
-    const appRole = String(payload.appRole ?? 'Pengguna');
+    // Terima `role` (nama/id/documentId/type bawaan Strapi).
+    // Tetap terima `appRole` lama sebagai alias agar client lama tidak pecah.
+    const roleInput = payload.role ?? payload.roleId ?? payload.appRole ?? 'Pengguna';
 
     if (cleanName.length < 3) throw new ValidationError('Nama staf minimal 3 karakter.');
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(cleanEmail))
       throw new ValidationError('Email staf tidak valid.');
     if (pw.length < 6) throw new ValidationError('Kata sandi minimal 6 karakter.');
-    if (!STAFF_ROLES.includes(appRole)) throw new ValidationError('Peran tidak dikenal.');
+    const targetRole = await resolveRole(strapi, roleInput);
 
     const existing: any = await strapi
-      .documents('plugin::users-permissions.user')
+      .documents(USER_UID)
       .findFirst({ filters: { email: cleanEmail } });
     if (existing) throw new ValidationError('Email sudah terdaftar.');
 
-    const authRole = await getAuthRole(strapi);
-
-    const user: any = await strapi.documents('plugin::users-permissions.user').create({
+    const user: any = await strapi.documents(USER_UID).create({
       data: {
         username: cleanName,
         email: cleanEmail,
@@ -201,23 +235,46 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
         confirmed: true,
         blocked: false,
         provider: 'local',
-        role: authRole.id,
-        appRole,
+        role: targetRole.documentId ?? targetRole.id,
         faskes: me.faskes.documentId,
       },
     });
+    const full = await strapi.documents(USER_UID).findOne({
+      documentId: user.documentId,
+      populate: ['faskes', 'role'],
+    });
 
-    ctx.send({ data: sanitizeUser({ ...user, faskes: me.faskes }), meta: {} });
+    ctx.send({ data: sanitizeUser({ ...(full ?? user), faskes: full?.faskes ?? me.faskes }), meta: {} });
   },
 
   async listStaff(ctx: any) {
     const me = await getCaller(strapi, ctx);
-    const users: any[] = await strapi.documents('plugin::users-permissions.user').findMany({
+    const users: any[] = await strapi.documents(USER_UID).findMany({
       filters: { faskes: { documentId: me.faskes.documentId } },
-      populate: ['faskes'],
+      populate: ['faskes', 'role'],
       sort: 'createdAt:asc',
       limit: 100,
     });
     ctx.send({ data: users.map(sanitizeUser), meta: { count: users.length } });
+  },
+
+  async listRoles(ctx: any) {
+    await getCaller(strapi, ctx);
+    const roles: any[] = await strapi.documents(ROLE_UID).findMany({
+      sort: 'name:asc',
+      limit: 50,
+    });
+    ctx.send({
+      data: roles
+        .filter((r) => r.type !== 'public')
+        .map((r) => ({ id: r.id, documentId: r.documentId, name: r.name, type: r.type })),
+      meta: { count: roles.length },
+    });
+  },
+
+  // Profil diri + role bawaan (pengganti /users/me yang tidak mengembalikan role).
+  async me(ctx: any) {
+    const me = await getCaller(strapi, ctx);
+    ctx.send({ data: sanitizeUser(me), meta: {} });
   },
 }));
