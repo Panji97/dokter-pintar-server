@@ -1172,7 +1172,16 @@ export interface ApiInsuranceClaimInsuranceClaim
     patient: Schema.Attribute.Relation<'manyToOne', 'api::patient.patient'>;
     patientName: Schema.Attribute.String;
     penjamin: Schema.Attribute.Enumeration<
-      ['Umum', 'BPJS Kesehatan', 'Asuransi Swasta', 'Member']
+      [
+        'Umum',
+        'BPJS Kesehatan',
+        'Asuransi',
+        'Asuransi Swasta',
+        'Jaminan Perusahaan',
+        'Karyawan Faskes',
+        'Keluarga Karyawan',
+        'Member',
+      ]
     >;
     publishedAt: Schema.Attribute.DateTime;
     status: Schema.Attribute.Enumeration<
@@ -1206,7 +1215,16 @@ export interface ApiInvoiceInvoice extends Struct.CollectionTypeSchema {
     doctor: Schema.Attribute.String;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
     group: Schema.Attribute.Enumeration<
-      ['Umum', 'BPJS Kesehatan', 'Asuransi Swasta', 'Member']
+      [
+        'Umum',
+        'BPJS Kesehatan',
+        'Asuransi',
+        'Asuransi Swasta',
+        'Jaminan Perusahaan',
+        'Karyawan Faskes',
+        'Keluarga Karyawan',
+        'Member',
+      ]
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1220,7 +1238,7 @@ export interface ApiInvoiceInvoice extends Struct.CollectionTypeSchema {
     patientId: Schema.Attribute.String;
     patientName: Schema.Attribute.String;
     paymentMethod: Schema.Attribute.Enumeration<
-      ['Tunai', 'QRIS', 'Debit', 'Transfer', 'BPJS']
+      ['Tunai', 'QRIS', 'Debit', 'Transfer', 'Kredit', 'BPJS']
     >;
     paymentStatus: Schema.Attribute.Enumeration<['Belum Dibayar', 'Lunas']> &
       Schema.Attribute.DefaultTo<'Belum Dibayar'>;
@@ -1991,7 +2009,16 @@ export interface ApiRegistrationRegistration
     >;
     faskes: Schema.Attribute.Relation<'manyToOne', 'api::faskes.faskes'>;
     group: Schema.Attribute.Enumeration<
-      ['Umum', 'BPJS Kesehatan', 'Asuransi Swasta', 'Member']
+      [
+        'Umum',
+        'BPJS Kesehatan',
+        'Asuransi',
+        'Asuransi Swasta',
+        'Jaminan Perusahaan',
+        'Karyawan Faskes',
+        'Keluarga Karyawan',
+        'Member',
+      ]
     >;
     invoice: Schema.Attribute.Relation<'oneToOne', 'api::invoice.invoice'>;
     jadwal: Schema.Attribute.String;

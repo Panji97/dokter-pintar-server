@@ -17,9 +17,43 @@ const { ValidationError, UnauthorizedError, ForbiddenError } = errors;
 
 const ROLE_UID = 'plugin::users-permissions.role';
 const USER_UID = 'plugin::users-permissions.user';
+const PERMISSION_UID = 'plugin::users-permissions.permission';
 
 // Hanya peran ini yang boleh mengundang staf.
 const ADMIN_ROLE_NAMES = ['Admin Faskes', 'Administrator'];
+
+/**
+ * Role aplikasi yang wajib ada agar registrasi & undangan staf berfungsi.
+ * Dibuat idempoten saat registrasi faskes (pengganti bootstrap global —
+ * sengaja di sini agar seluruh logika multi-tenant tetap di dalam src/api).
+ * Permission disalin dari role `authenticated` agar perilaku tak berubah.
+ */
+const APP_ROLES: Array<{ name: string; type: string }> = [
+  { name: 'Admin Faskes', type: 'admin-faskes' },
+  { name: 'Pengguna', type: 'pengguna' },
+];
+
+async function ensureAppRoles(strapi: any) {
+  for (const { name, type } of APP_ROLES) {
+    const existing: any = await strapi.db.query(ROLE_UID).findOne({ where: { name } });
+    if (existing) continue;
+    const created: any = await strapi.db.query(ROLE_UID).create({
+      data: { name, description: `${name} (dibuat otomatis saat registrasi faskes)`, type },
+    });
+    const source: any = await strapi.db.query(ROLE_UID).findOne({ where: { type: 'authenticated' } });
+    if (source) {
+      const perms: any[] = await strapi.db.query(PERMISSION_UID).findMany({ where: { role: source.id } });
+      for (const p of perms) {
+        const { id, createdAt, updatedAt, role, ...rest } = p;
+        void id;
+        void createdAt;
+        void updatedAt;
+        void role;
+        await strapi.db.query(PERMISSION_UID).create({ data: { ...rest, role: created.id } });
+      }
+    }
+  }
+}
 
 const roleName = (u: any): string => {
   const r = Array.isArray(u?.role) ? u.role[0] : u?.role;
@@ -148,6 +182,9 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
       .documents(USER_UID)
       .findFirst({ filters: { email } });
     if (existingUser) throw new ValidationError('Email sudah terdaftar.');
+
+    // Pastikan role aplikasi ada sebelum admin dibuat (idempoten, di-skip bila sudah ada).
+    await ensureAppRoles(strapi);
 
     const created: any = await strapi.documents('api::faskes.faskes').create({
       data: {

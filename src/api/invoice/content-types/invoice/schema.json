@@ -28,7 +28,11 @@
       "enum": [
         "Umum",
         "BPJS Kesehatan",
+        "Asuransi",
         "Asuransi Swasta",
+        "Jaminan Perusahaan",
+        "Karyawan Faskes",
+        "Keluarga Karyawan",
         "Member"
       ]
     },
@@ -66,6 +70,7 @@
         "QRIS",
         "Debit",
         "Transfer",
+        "Kredit",
         "BPJS"
       ]
     },
