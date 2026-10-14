@@ -97,18 +97,33 @@ const MASTER_COPIES: Array<{ from: string; to: string; pick: string[]; defaults?
   { from: 'api::ms-brand.ms-brand', to: 'api::brand.brand', pick: ['code', 'name'] },
 ];
 
-async function seedFaskesMasters(strapi: any, faskesDocumentId: string) {
+async function seedFaskesMasters(strapi: any, faskesDocumentId: string): Promise<string> {
+  let defaultRoom = '';
   for (const { from, to, pick, defaults } of MASTER_COPIES) {
-    const templates: any[] = await strapi.documents(from).findMany({ limit: 1000 });
+    const templates: any[] = await strapi.documents(from).findMany({
+      limit: 1000,
+      ...(from === 'api::ms-poli.ms-poli' ? { sort: ['name:asc'] } : {}),
+    });
+    if (from === 'api::ms-poli.ms-poli') defaultRoom = String(templates[0]?.name ?? '');
     for (const t of templates) {
       const data: Record<string, unknown> = { faskes: faskesDocumentId };
       for (const key of pick) {
-        if (t[key] !== undefined && t[key] !== null) data[key] = t[key];
+        if (t[key] === undefined || t[key] === null) continue;
+        const targetAttribute = strapi.contentType(to)?.attributes?.[key];
+        // Master data may outlive a target enum change; omit incompatible optional values.
+        if (targetAttribute?.type === 'enumeration' && !targetAttribute.enum?.includes(t[key])) {
+          if (targetAttribute.required) {
+            throw new ValidationError(`Master ${from} has invalid ${key} for ${to}.`);
+          }
+          continue;
+        }
+        data[key] = t[key];
       }
       Object.assign(data, defaults ?? {});
       await strapi.documents(to).create({ data });
     }
   }
+  return defaultRoom;
 }
 
 export default factories.createCoreController('api::faskes.faskes', ({ strapi }: any) => ({
@@ -162,14 +177,15 @@ export default factories.createCoreController('api::faskes.faskes', ({ strapi }:
         },
       });
 
-      await seedFaskesMasters(strapi, created.documentId);
+      const defaultRoom = await seedFaskesMasters(strapi, created.documentId);
+      if (!defaultRoom) throw new ValidationError('Master ms-poli kosong; poli default faskes tidak dapat dibuat.');
 
       // Buat akun pendaftar sebagai staf pertama agar faskes langsung bisa registrasi pasien
       await strapi.documents('api::staff.staff').create({
         data: {
           name: username,
           role: 'Dokter Umum',
-          room: 'Poli Umum',
+          room: defaultRoom,
           active: true,
           faskes: created.documentId,
         },
